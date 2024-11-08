@@ -5,7 +5,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 // Clone the Git repository
-                git branch: 'main', url: '<your-repository-url>'
+                git branch: 'main', url: 'https://github.com/manavanand2812/devops_lab.git'
             }
         }
 
