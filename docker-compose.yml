@@ -2,25 +2,25 @@
 
 services:
   web:
-    image: nginx:latest  # Replace with your preferred web server image
+    image: httpd:latest  # Apache HTTP Server image
     ports:
-      - "8081:80"
+      - "4444:80"  # Expose Apache on port 4444
     depends_on:
       - db
     networks:
       - app-network
     volumes:
-      - ./html:/usr/share/nginx/html  # Mounting HTML files
+      - ./html:/usr/local/apache2/htdocs/  # Mounting HTML files to Apache's document root
 
   db:
-    image: mysql:latest  # Replace with your preferred database image
+    image: mysql:latest  # MySQL database image
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: mydatabase
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
-      - "3306:3306"
+      - "3306:3306"  # Expose MySQL on port 3306
     networks:
       - app-network
 
