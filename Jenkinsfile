@@ -10,20 +10,20 @@ pipeline {
         }
 
         stage('Build and Deploy') {
-    steps {
-        script {
-            withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                // Log in to Docker Hub
-                sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        // Log in to Docker Hub
+                        sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                    }
+                    // Proceed with Docker commands after login
+                    sh 'docker-compose down'
+                    sh 'docker-compose pull'
+                    sh 'docker-compose up -d'
+                }
             }
-            // Proceed with Docker commands after login
-            sh 'docker-compose down'
-            sh 'docker-compose pull'
-            sh 'docker-compose up -d'
         }
     }
-}
-
 
     post {
         always {
@@ -37,5 +37,4 @@ pipeline {
             echo 'Deployment failed.'
         }
     }
-}
 }
